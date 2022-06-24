@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>法律判断预测</title>
+    <script>
+        function b2clear() {
+            var element = document.getElementById('input');
+            element.value = '';
+        }
+
+        function change() {
+            var element = document.getElementById('background')
+            element.style.display = "none"
+            var element2 = document.getElementById('input')
+            element2.style.visibility = "visible"
+        }
+    </script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial;
+            padding: 5px;
+            background: #f1f1f1;
+        }
+
+        /* 头部标题 */
+        .header {
+            border-radius: 10px;
+            padding-top: 1px;
+            padding-bottom: 1px;
+            padding-left: 30px;
+            text-align: left;
+            background: white;
+        }
+
+        .header h1 {
+            font-size: 50px;
+        }
+
+        /* 创建两列 */
+        /* Left column */
+        .leftcolumn {
+            float: left;
+            width: 50%;
+            background-color: #f1f1f1;
+        }
+
+        /* 右侧栏 */
+        .rightcolumn {
+            float: left;
+            width: 50%;
+            background-color: #f1f1f1;
+        }
+
+
+        .h-wrap {
+            background-color: white;
+            padding: 20px;
+            height: 350px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin: 0px 10px 10px 200px;
+        }
+
+        .r-wrap {
+            background-color: white;
+            padding: 20px;
+            height: 350px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            margin: 0px 200px 10px 10px;
+        }
+
+
+        .history {
+            font-size: 20px;
+            border: 1px solid silver;
+            border-radius: 6px;
+            color: #7390c9;
+        }
+
+        .results {
+            font-size: 20px;
+            border: 1px solid silver;
+            border-radius: 6px;
+            color: #7390c9;
+        }
+
+        .h-content {
+            font-size: 13px;
+        }
+
+        .r-content {
+            font-size: 13px;
+        }
+
+        .texts {
+            margin: 20px 200px 20px;
+            height: 250px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+        }
+
+        .fact {
+            width: 100%;
+            height: 100%;
+            padding: 12px 15px;
+            font-size: 20px;
+            color: black;
+            resize: none;
+            visibility: hidden;
+        }
+
+
+        .bg {
+            padding: 10px 15px;
+            font-size: 20px;
+            color: gray;
+        }
+
+
+        /* 列后面清除浮动 */
+        .row2:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .button {
+            position: relative;
+            left: 412px;
+            background-color: #47bfd3;
+            border-radius: 6px;
+            font-size: 24px;
+            color: #FFFFFF;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            text-decoration: none;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .button2 {
+            position: relative;
+            right: -808px;
+            background-color: #47bfd3;
+            border-radius: 6px;
+            font-size: 24px;
+            color: #FFFFFF;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+            -webkit-transition-duration: 0.4s; /* Safari */
+            transition-duration: 0.4s;
+            text-decoration: none;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .button2:after {
+            content: "";
+            background: #69d5e7;
+            display: block;
+            position: absolute;
+            padding-top: 300%;
+            padding-left: 350%;
+            margin-left: -20px !important;
+            margin-top: -120%;
+            opacity: 0;
+            transition: all 0.8s
+        }
+
+        .button2:active:after {
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+            transition: 0s
+        }
+
+        .button:after {
+            content: "";
+            background: #69d5e7;
+            display: block;
+            position: absolute;
+            padding-top: 300%;
+            padding-left: 350%;
+            margin-left: -20px !important;
+            margin-top: -120%;
+            opacity: 0;
+            transition: all 0.8s
+        }
+
+        .button:active:after {
+            padding: 0;
+            margin: 0;
+            opacity: 1;
+            transition: 0s
+        }
+
+        /* 底部 */
+        .footer {
+            border-radius: 5px;
+            padding: 1px;
+            text-align: center;
+            background: #ddd;
+            margin-top: 10px;
+        }
+
+        .footer h2 {
+            font-size: 20px;
+        }
+
+        /* 响应式布局 - 屏幕尺寸小于 800px 时，两列布局改为上下布局 */
+        @media screen and (max-width: 800px) {
+            .leftcolumn, .rightcolumn {
+                width: 100%;
+                padding: 0;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1>智能法律判断系统</h1>
+</div>
+
+<form action="/LJP/pre" method="get" id="container">
+    <div class="row1">
+        <div class="texts" onclick="change()">
+            <span class="bg" id="background">输入文字</span>
+            <textarea class="fact" id="input" name="input" form="container" required>{{ fact }}</textarea>
+        </div>
+    </div>
+    <div class="row2">
+        <div class="leftcolumn">
+            <div class="h-wrap">
+                <span class="history">上一条记录</span>
+                <br/>
+                <span class="h-content" id="hcontent">{{ fact }}</span>
+            </div>
+        </div>
+        <div class="rightcolumn">
+            <div class="r-wrap">
+                <span class="results">结果显示</span>
+                <br/>
+                <span class="r-content" id="rcontent">{{ result }}</span>
+            </div>
+        </div>
+    </div>
+    <button class="button" type="submit">分析</button>
+    <button class="button2" type="button" onclick="b2clear()">清空</button>
+</form>
+<div class="footer">
+    <h2>负责人：丁旭行</h2>
+</div>
+{% if messages %}
+    <script>
+        {% for msg in messages %}
+            alert('{{ msg.message }}');
+        {% endfor %}
+    </script>
+{% endif %}
+</body>
+</html>

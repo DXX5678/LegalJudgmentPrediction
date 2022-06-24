@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>法律判断预测</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var password = "";
+        var username = "";
+
+        function fun() {
+            alert("默认代表您同意《用户服务协议》和《隐私政策》");
+        }
+
+        function chackuser() {
+            var nameobj = document.getElementById("zcname");
+            var nametext = nameobj.value;
+            var  natt=/^\w{5,11}$/;
+            if (natt.test(nametext) != true && nametext != "") {
+                alert("用户名不符合要求！")
+            } else {
+                username = nametext;
+            }
+        }
+
+        function chackpassword() {
+            var passobj = document.getElementById("zcpass");
+            var passtext = passobj.value;
+            var  patt=/^\w{6,12}$/;
+            if (patt.test(passtext) != true && passtext != "") {
+                alert("密码不符合要求！")
+            } else {
+                password = passtext;
+            }
+        }
+
+        function onclickfun() {
+            var passrobj = document.getElementById("zcrpass");
+            var passrtext = passrobj.value;
+            if (passrtext != password) {
+                alert("密码不正确！");
+                return false;
+            } else if (username == "" || password == "") {
+                alert("请填写完整信息！");
+                return false;
+            } else {
+                alert("注册成功！");
+                document.getElementById('form1').submit();
+                return true;
+            }
+        }
+    </script>
+    <meta charset="utf-8">
+    <style type="text/css">
+        html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            font-style: normal;
+        }
+
+        body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            margin: 0;
+            background-color: #f1f1f1;
+        }
+
+        #register {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            margin: -150px 0 0 -150px;
+            width: 300px;
+            height: 300px;
+        }
+
+        h1 {
+            color: #477bea;
+            text-shadow: 0 0 10px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 0.5em;
+            margin: 0.67em 0;
+            color: #477bea;
+            text-shadow: 0 0 10px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        #register input {
+            width: 278px;
+            height: 18px;
+            margin-bottom: 4px;
+            outline: none;
+            padding: 10px;
+            font-size: 13px;
+            color: #fff;
+            text-shadow: 1px 1px 1px;
+            border-top: 1px solid #312E3D;
+            border-left: 1px solid #312E3D;
+            border-right: 1px solid #312E3D;
+            border-bottom: 1px solid #56536A;
+            border-radius: 4px;
+            background-color: #2D2D3F;
+        }
+
+        .but {
+            width: 300px;
+            min-height: 20px;
+            display: block;
+            background-color: #4a77d4;
+            border: 1px solid #3762bc;
+            color: #fff;
+            padding: 9px 14px;
+            font-size: 15px;
+            line-height: normal;
+            border-radius: 5px;
+            margin: 0;
+        }
+    </style>
+</head>
+<body onload="fun()">
+<div id="register">
+    <h1>Register</h1>
+    <form action="/" method="post" id="form1" onsubmit="return onclickfun()">
+        {% csrf_token %}
+        <input type="text" required="required" name="username" id="zcname" placeholder="用户名:5-11位数字字母下划线"
+               onblur="chackuser()"/>
+        <input type="password" required="required" name="password1" id="zcpass" placeholder="密码:6-12位"
+               onblur="chackpassword()"/>
+        <input type="password" required="required" name="password2" id="zcrpass" placeholder="请再次确认密码"/>
+        <input type="text" name="email" id="zcemail" placeholder="请输入邮箱"/>
+        <input type="tel" name="phone" id="zcpgone" placeholder="请输入手机号"/>
+        <button class="but" type="submit">提交</button>
+    </form>
+</div>
+</body>
+</html>
